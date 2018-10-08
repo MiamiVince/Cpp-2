@@ -4,32 +4,33 @@
 #include "meinWidget.h"
 #include "zeichenFeld.h"
 
-meinWidget::meinWidget(QWidget *parent)
+meinWidget::meinWidget(QWidget* parent)
     : QWidget(parent)
 {
-    QPushButton *start = new QPushButton(tr("Start"));
-    start->setFont(QFont("Times", 18, QFont::Bold));
-    connect(start, SIGNAL(clicked()), qApp, SLOT(start()));
 
-    QPushButton *stop = new QPushButton(tr("Close"));
-    stop->setFont(QFont("Times", 18, QFont::Bold));
-    connect(stop, SIGNAL(clicked()), this, SLOT(quit()));
+    starter->setFont(QFont("Times", 18, QFont::Bold));
+    connect(starter, SIGNAL(clicked()), this, SLOT(start()));
 
-    QPushButton *save = new QPushButton(tr("Speichern"));
-    save->setFont(QFont("Times", 18, QFont::Bold));
-    connect(save, SIGNAL(clicked()), this, SLOT(saveFile()));
+    QPushButton *close = new QPushButton(tr("Close"));
+    close->setFont(QFont("Times", 18, QFont::Bold));
+    connect(close, SIGNAL(clicked()), qApp, SLOT(quit()));
 
-    QPushButton *load = new QPushButton(tr("Laden"));
-    load->setFont(QFont("Times", 18, QFont::Bold));
-    connect(load, SIGNAL(clicked()), this, SLOT(loadFile()));
+    QPushButton *saver = new QPushButton(tr("Speichern"));
+    saver->setFont(QFont("Times", 18, QFont::Bold));
+    connect(saver, SIGNAL(clicked()), this, SLOT(saveFile()));
 
-    zeichenFeld *meinZeichenFeld = new zeichenFeld;
+    QPushButton *loader = new QPushButton(tr("Laden"));
+    loader->setFont(QFont("Times", 18, QFont::Bold));
+    connect(loader, SIGNAL(clicked()), this, SLOT(loadFile()));
 
-    QGridLayout *gridLayout = new QGridLayout;
-    gridLayout->addWidget(start, 0, 0);
-    gridLayout->addWidget(stop, 1, 0);
-    gridLayout->addWidget(save, 2, 0);
-    gridLayout->addWidget(load, 3, 0);
+    meinZeichenFeld = new zeichenFeld;
+    meinZeichenFeld->setFocusPolicy(Qt::StrongFocus);
+
+    QGridLayout* gridLayout = new QGridLayout;
+    gridLayout->addWidget(starter, 0, 0);
+    gridLayout->addWidget(saver, 1, 0);
+    gridLayout->addWidget(loader, 2, 0);
+    gridLayout->addWidget(close, 3, 0);
     gridLayout->addWidget(meinZeichenFeld, 0, 1, 5, 1);
     gridLayout->setColumnStretch(1, 10);
     setLayout(gridLayout);
@@ -37,10 +38,15 @@ meinWidget::meinWidget(QWidget *parent)
 
 void meinWidget::start(void)
 {
-    meinZeichenFeld->start();
+    if(startPause == true){
+        meinZeichenFeld->start();
+        startPause = false;
+        starter->setText("Stop");
+    }
+    else if (startPause == false){
+        meinZeichenFeld->stop();
+        startPause = true;
+        starter->setText("Start");
+    }
 }
-
-void meinWidget::stop(void)
-{
-    meinZeichenFeld->stop();
-}
+void meinWidget::stop(void){}
