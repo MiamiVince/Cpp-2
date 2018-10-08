@@ -3,6 +3,7 @@
 
 #include "zeichenFeld.h"
 #include <QWidget>
+#include <QPushButton>
 
 
 class meinWidget : public QWidget
@@ -13,10 +14,13 @@ public:
 
 private:
     zeichenFeld *meinZeichenFeld;
+    QPushButton *starter = new QPushButton(tr("Start"));
+    bool startPause = true;
 
 private slots:
     void start(void);
     void stop(void);
+
 
 };
 #endif // MEINWIDGET_H
