@@ -20,6 +20,8 @@ private:
 private slots:
     void start(void);
     void stop(void);
+    void loadFile(void);
+    void saveFile(void);
 
 
 };
