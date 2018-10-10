@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QTimer>
+#include <QFile>
 
 
 
@@ -14,6 +15,9 @@ public:
 
     void start(void) { timer->start(20); increment = 1; };
     void stop(void) { timer->stop(); increment = 0; };
+    void serialize(QFile &file);
+    void deserialize(QFile &file);
+    int getPunkteStand() { return punkteStand; };
 
 
 
@@ -22,6 +26,11 @@ private:
     QTimer* timer;
     int punkteStand;
     int increment;
+    int lastY;
+    int randX;
+    int randC;
+    int lastV;
+
 
 
 
